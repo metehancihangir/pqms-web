@@ -35,6 +35,20 @@ public class QueueController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("checkin")]
+    [AllowAnonymous]
+    public async Task<IActionResult> CheckIn([FromBody] PQMS.API.DTOs.Queue.CheckInRequestDto request)
+    {
+        try
+        {
+            var result = await _queueService.CheckIn(request);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
     [HttpPost("call-next")]
     public async Task<IActionResult> CallNextPatient()
     {

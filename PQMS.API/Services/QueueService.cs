@@ -80,4 +80,41 @@ public class QueueService : IQueueService
         await _context.SaveChangesAsync();
         return queueEntry;
     }
+
+    public async Task<PQMS.API.DTOs.Queue.CheckInResponseDto> CheckIn(PQMS.API.DTOs.Queue.CheckInRequestDto request)
+    {
+        var patient = await _context.Patients.FindAsync(request.PatientId);
+        if (patient == null)
+            throw new Exception("Patient not found.");
+
+        bool alreadyCheckedIn = await _context.QueueEntries
+            .AnyAsync(q => q.PatientId == request.PatientId
+                        && q.QueueDate == DateTime.UtcNow.Date
+                        && q.Status != "Completed");
+
+        if (alreadyCheckedIn)
+            throw new Exception("Patient is already in the queue today.");
+
+        if (!request.TermsAccepted)
+            throw new Exception("You must accept the terms and conditions.");
+
+        string queueNumber = await GenerateQueueNumber(request.CheckInType, DateTime.UtcNow);
+
+        var entry = new QueueEntry
+        {
+            PatientId = request.PatientId,
+            QueueNumber = queueNumber,
+            CheckInType = request.CheckInType,
+            VisitReason = request.VisitReason,
+            AdditionalInfo = request.AdditionalInfo,
+            Status = "Waiting",
+            CheckInTime = DateTime.UtcNow,
+            QueueDate = DateTime.UtcNow.Date
+        };
+
+        _context.QueueEntries.Add(entry);
+        await _context.SaveChangesAsync();
+
+        return new PQMS.API.DTOs.Queue.CheckInResponseDto(entry.Id, queueNumber, patient.FullName, "Waiting", entry.CheckInTime);
+    }
 }
