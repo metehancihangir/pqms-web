@@ -40,9 +40,9 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponseDto> Register(RegisterRequestDto request)
     {
-        if (await _context.Users.AnyAsync(u => u.Email == request.Email))
+        if (await _context.Users.AnyAsync(u => u.Email.ToLower() == request.Email.ToLower()))
         {
-            throw new InvalidOperationException("Bu e-posta adresi zaten kullanımda.");
+            throw new InvalidOperationException("This email is already registered.");
         }
 
         var user = new User

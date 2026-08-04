@@ -24,8 +24,10 @@ const Navbar = () => {
       </div>
 
       <div className="navbar__user">
-        <span className="navbar__user-name">{user?.fullName} ({user?.role})</span>
-        <button className="navbar__logout-btn" onClick={handleLogout}>Çıkış Yap</button>
+        <span className="navbar__user-name">
+          {user?.fullName === 'Sistem Yöneticisi' ? 'System Administrator' : user?.fullName} ({user?.role})
+        </span>
+        <button className="navbar__logout-btn" onClick={handleLogout}>Logout</button>
       </div>
     </nav>
   );

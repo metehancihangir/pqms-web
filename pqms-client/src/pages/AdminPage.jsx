@@ -59,8 +59,19 @@ const AdminPage = () => {
     }
   };
 
+  const handleDeleteUser = async (id) => {
+    if (window.confirm("Bu kullanıcıyı silmek istediğinize emin misiniz? (Bu işlem geri alınamaz)")) {
+      try {
+        await adminService.deleteUser(id);
+        loadData();
+      } catch (err) {
+        alert('Silme başarısız.');
+      }
+    }
+  };
+
   const openRoleModal = (user) => {
-    setEditingRole({ id: user.id, fullName: user.fullName, role: user.role, isActive: user.isActive });
+    setEditingRole({ id: user.id, fullName: user.fullName, role: user.role || 'Patient', isActive: user.isActive });
     setShowRoleModal(true);
   };
 
@@ -148,15 +159,16 @@ const AdminPage = () => {
                       <td>{u.id}</td>
                       <td>{u.fullName}</td>
                       <td>{u.email}</td>
-                      <td><span className={`badge role-${u.role.toLowerCase()}`}>{u.role}</span></td>
+                      <td><span className={`badge role-${(u.role || 'Patient').toLowerCase()}`}>{u.role || 'Patient'}</span></td>
                       <td>
                         <span className={`badge status-${u.isActive ? 'active' : 'inactive'}`}>
                           {u.isActive ? 'Active' : 'Inactive'}
                         </span>
                       </td>
-                      <td>
+                      <td style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         <button className="btn-sm btn-outline" onClick={() => openRoleModal(u)}>Edit Role</button>
                         <button className="btn-sm btn-outline-danger" onClick={() => handleToggleUserStatus(u.id)}>Toggle Status</button>
+                        <button className="btn-sm btn-outline-danger" onClick={() => handleDeleteUser(u.id)}>Delete</button>
                       </td>
                     </tr>
                   ))}
@@ -200,7 +212,9 @@ const AdminPage = () => {
             {activeTab === 'history' && (
               <div>
                 <div className="filters-bar">
+                  <span style={{alignSelf:'center', fontWeight:'600', color:'#475569'}}>From:</span>
                   <input type="date" value={filters.startDate} onChange={e => setFilters({...filters, startDate: e.target.value})} />
+                  <span style={{alignSelf:'center', fontWeight:'600', color:'#475569'}}>To:</span>
                   <input type="date" value={filters.endDate} onChange={e => setFilters({...filters, endDate: e.target.value})} />
                   <select value={filters.status} onChange={e => setFilters({...filters, status: e.target.value})}>
                     <option value="">All Statuses</option>
@@ -273,6 +287,7 @@ const AdminPage = () => {
             <div className="form-group">
               <label>Role</label>
               <select value={editingRole.role} onChange={e => setEditingRole({...editingRole, role: e.target.value})}>
+                <option value="Patient">Patient</option>
                 <option value="Doctor">Doctor</option>
                 <option value="Admin">Admin</option>
               </select>

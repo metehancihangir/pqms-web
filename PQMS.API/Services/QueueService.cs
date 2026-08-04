@@ -27,21 +27,28 @@ public class QueueService : IQueueService
     public async Task<IEnumerable<QueueEntry>> GetTodayQueue()
     {
         var today = DateTime.UtcNow.Date;
-        return await _context.QueueEntries
+        var entries = await _context.QueueEntries
             .Include(q => q.Patient)
             .Where(q => q.QueueDate == today)
-            .OrderBy(q => q.CheckInTime)
             .ToListAsync();
+
+        return entries
+            .OrderBy(q => new DateTime(q.CheckInTime.Year, q.CheckInTime.Month, q.CheckInTime.Day, q.CheckInTime.Hour, q.CheckInTime.Minute, 0))
+            .ThenBy(q => q.CheckInType == "Appointment" ? 0 : 1);
     }
 
     public async Task<QueueEntry> CallNextPatient()
     {
         var today = DateTime.UtcNow.Date;
 
-        var nextPatient = await _context.QueueEntries
+        var waitingList = await _context.QueueEntries
             .Where(q => q.QueueDate == today && q.Status == "Waiting")
-            .OrderBy(q => q.CheckInTime)
-            .FirstOrDefaultAsync();
+            .ToListAsync();
+
+        var nextPatient = waitingList
+            .OrderBy(q => new DateTime(q.CheckInTime.Year, q.CheckInTime.Month, q.CheckInTime.Day, q.CheckInTime.Hour, q.CheckInTime.Minute, 0))
+            .ThenBy(q => q.CheckInType == "Appointment" ? 0 : 1)
+            .FirstOrDefault();
 
         if (nextPatient == null)
             throw new Exception("No waiting patients found.");
@@ -116,5 +123,43 @@ public class QueueService : IQueueService
         await _context.SaveChangesAsync();
 
         return new PQMS.API.DTOs.Queue.CheckInResponseDto(entry.Id, queueNumber, patient.FullName, "Waiting", entry.CheckInTime);
+    }
+
+    public async Task<PQMS.API.DTOs.Queue.QueueDisplayDto> GetQueueDisplay()
+    {
+        var today = DateTime.UtcNow.Date;
+
+        var currentEntry = await _context.QueueEntries
+            .Include(q => q.Patient)
+            .Where(q => q.QueueDate == today && q.Status == "InProgress")
+            .OrderByDescending(q => q.CalledAt) // en son çağrılan
+            .FirstOrDefaultAsync();
+
+        PQMS.API.DTOs.Queue.QueueDisplayItemDto currentPatient = null;
+        if (currentEntry != null)
+        {
+            currentPatient = new PQMS.API.DTOs.Queue.QueueDisplayItemDto(
+                currentEntry.QueueNumber,
+                currentEntry.Patient?.FullName,
+                currentEntry.CheckInTime
+            );
+        }
+
+        var rawWaitingEntries = await _context.QueueEntries
+            .Include(q => q.Patient)
+            .Where(q => q.QueueDate == today && q.Status == "Waiting")
+            .ToListAsync();
+
+        var waitingEntries = rawWaitingEntries
+            .OrderBy(q => new DateTime(q.CheckInTime.Year, q.CheckInTime.Month, q.CheckInTime.Day, q.CheckInTime.Hour, q.CheckInTime.Minute, 0))
+            .ThenBy(q => q.CheckInType == "Appointment" ? 0 : 1)
+            .Select(q => new PQMS.API.DTOs.Queue.QueueDisplayItemDto(
+                q.QueueNumber,
+                q.Patient.FullName,
+                q.CheckInTime
+            ))
+            .ToList();
+
+        return new PQMS.API.DTOs.Queue.QueueDisplayDto(currentPatient, waitingEntries);
     }
 }

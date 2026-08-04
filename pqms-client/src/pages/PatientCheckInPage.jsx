@@ -65,7 +65,7 @@ function PatientCheckInPage() {
         <div className="checkin-success-card">
           <h2>🎉 You're Checked In!</h2>
           <p>Please wait for your queue number to be called.</p>
-          <div className="queue-display">
+          <div className="checkin-queue-ticket">
             <span className="queue-label">Your Queue Number</span>
             <span className="queue-number">{checkInResult.queueNumber}</span>
           </div>

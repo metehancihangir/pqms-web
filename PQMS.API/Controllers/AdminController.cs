@@ -54,6 +54,20 @@ public class AdminController : ControllerBase
         }
     }
 
+    [HttpDelete("users/{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        try
+        {
+            await _adminService.DeleteUser(id);
+            return Ok(new { message = "User deleted successfully." });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     // ===== Visit Reasons Management =====
     [HttpGet("visit-reasons")]
     public async Task<IActionResult> GetVisitReasons()

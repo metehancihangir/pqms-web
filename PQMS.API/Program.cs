@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using PQMS.API.Data;
+using PQMS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,10 +45,11 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()));
 
 // ===== Services =====
-builder.Services.AddScoped<PQMS.API.Services.IAuthService, PQMS.API.Services.AuthService>();
-builder.Services.AddScoped<PQMS.API.Services.IQueueService, PQMS.API.Services.QueueService>();
-builder.Services.AddScoped<PQMS.API.Services.IPatientService, PQMS.API.Services.PatientService>();
-builder.Services.AddScoped<PQMS.API.Services.IAdminService, PQMS.API.Services.AdminService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IQueueService, QueueService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
 // ===== Controllers & Swagger =====
 builder.Services.AddControllers();

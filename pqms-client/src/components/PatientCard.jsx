@@ -13,8 +13,20 @@ const PatientCard = ({ patient, onComplete, isCompleting }) => {
       <div className="patient-card__main">
         <div className="patient-card__info">
           <h3>{patient.patientName || 'Bilinmeyen Hasta'}</h3>
-          <span className="patient-card__time">Giriş: {formatTime(patient.checkInTime)}</span>
-          {patient.visitReason && <span className="patient-card__reason">Nedeni: {patient.visitReason}</span>}
+          <span className="patient-card__time">
+            Giriş: {formatTime(patient.checkInTime)}
+            <span style={{ 
+              marginLeft: '8px', 
+              fontSize: '12px', 
+              padding: '2px 6px', 
+              borderRadius: '4px', 
+              background: patient.checkInType === 'Appointment' ? '#dcfce7' : '#e0f2fe',
+              color: patient.checkInType === 'Appointment' ? '#166534' : '#075985'
+            }}>
+              {patient.checkInType === 'Appointment' ? 'Appointment' : 'Walk-In'}
+            </span>
+          </span>
+          {patient.visitReason && <span className="patient-card__reason">Reason: {patient.visitReason}</span>}
         </div>
         <span className={`badge ${badgeClass}`}>
           {patient.queueNumber}
@@ -27,7 +39,7 @@ const PatientCard = ({ patient, onComplete, isCompleting }) => {
           onClick={() => onComplete(patient.id)}
           disabled={isCompleting}
         >
-          {isCompleting ? 'Tamamlanıyor...' : 'Muayeneyi Bitir'}
+          {isCompleting ? 'Completing...' : 'Finish Examination'}
         </button>
       )}
     </div>

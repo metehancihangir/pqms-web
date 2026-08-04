@@ -15,6 +15,12 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
+.welcome-navbar__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .welcome-navbar__logo {
   font-size: 24px;
   font-weight: 800;
@@ -26,6 +32,24 @@
   font-size: 18px;
   font-weight: 600;
   color: #64748b;
+}
+
+.btn-welcome-logout {
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-welcome-logout:hover {
+  background: #f8fafc;
+  color: #ef4444;
+  border-color: #fca5a5;
 }
 
 .welcome-container {

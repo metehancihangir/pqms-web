@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/PatientWelcomePage.css';
 
 const PatientWelcomePage = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleExistingPatient = () => {
     navigate('/patient/search');
@@ -12,11 +14,19 @@ const PatientWelcomePage = () => {
     navigate('/patient/register');
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <div className="welcome-wrapper">
       <nav className="welcome-navbar">
-        <div className="welcome-navbar__logo">PQMS</div>
-        <div className="welcome-navbar__title">Patient Welcome</div>
+        <div className="welcome-navbar__left">
+          <div className="welcome-navbar__logo">PQMS</div>
+          <div className="welcome-navbar__title">Patient Welcome</div>
+        </div>
+        <button onClick={handleLogout} className="btn-welcome-logout">Logout</button>
       </nav>
 
       <div className="welcome-container">

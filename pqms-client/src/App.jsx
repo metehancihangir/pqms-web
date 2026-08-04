@@ -5,6 +5,8 @@ import PatientWelcomePage from './pages/PatientWelcomePage';
 import PatientSearchPage from './pages/PatientSearchPage';
 import PatientCheckInPage from './pages/PatientCheckInPage';
 import PatientRegisterPage from './pages/PatientRegisterPage';
+import PatientAppointmentPage from './pages/PatientAppointmentPage';
+import QueueDisplayPage from './pages/QueueDisplayPage';
 import AdminPage from './pages/AdminPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -14,8 +16,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<AuthPage />} />
         
-        {/* Korumalı Rotalar */}
-        <Route element={<ProtectedRoute />}>
+        {/* Korumalı Rotalar (Sadece Personel) */}
+        <Route element={<ProtectedRoute allowedRoles={['Doctor', 'Admin']} />}>
           <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
 
@@ -23,7 +25,9 @@ function App() {
         <Route path="/patient/welcome" element={<PatientWelcomePage />} />
         <Route path="/patient/search" element={<PatientSearchPage />} />
         <Route path="/patient/checkin/:patientId" element={<PatientCheckInPage />} />
+        <Route path="/patient/appointment/:patientId" element={<PatientAppointmentPage />} />
         <Route path="/patient/register" element={<PatientRegisterPage />} />
+        <Route path="/queue-display" element={<QueueDisplayPage />} />
 
         {/* Admin Rotaları */}
         <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
@@ -31,7 +35,8 @@ function App() {
         </Route>
 
         {/* Varsayılan Rota */}
-        <Route path="*" element={<Navigate to="/patient/welcome" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );

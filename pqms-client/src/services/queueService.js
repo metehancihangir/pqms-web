@@ -16,6 +16,11 @@ export const queueService = {
     return response.data;
   },
 
+  getQueueDisplay: async () => {
+    const response = await api.get('/queue/display');
+    return response.data;
+  },
+
   getVisitReasons: async () => {
     const response = await api.get('/visit-reasons');
     return response.data;
