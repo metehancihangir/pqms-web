@@ -8,5 +8,10 @@ export const patientService = {
 
     const response = await api.get('/patients/search', { params });
     return response.data;
+  },
+
+  create: async (data) => {
+    const response = await api.post('/patients', data);
+    return response;
   }
 };

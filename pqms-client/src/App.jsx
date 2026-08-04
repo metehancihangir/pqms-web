@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage';
 import PatientWelcomePage from './pages/PatientWelcomePage';
 import PatientSearchPage from './pages/PatientSearchPage';
 import PatientCheckInPage from './pages/PatientCheckInPage';
+import PatientRegisterPage from './pages/PatientRegisterPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         <Route path="/patient/welcome" element={<PatientWelcomePage />} />
         <Route path="/patient/search" element={<PatientSearchPage />} />
         <Route path="/patient/checkin/:patientId" element={<PatientCheckInPage />} />
-        <Route path="/patient/register" element={<div style={{padding: '50px', textAlign: 'center'}}><h2>Patient Register Page (Faz 5 Placeholder)</h2></div>} />
+        <Route path="/patient/register" element={<PatientRegisterPage />} />
 
         {/* Varsayılan Rota */}
         <Route path="*" element={<Navigate to="/patient/welcome" replace />} />
