@@ -45,6 +45,7 @@ builder.Services.AddCors(options =>
 
 // ===== Services =====
 builder.Services.AddScoped<PQMS.API.Services.IAuthService, PQMS.API.Services.AuthService>();
+builder.Services.AddScoped<PQMS.API.Services.IQueueService, PQMS.API.Services.QueueService>();
 
 // ===== Controllers & Swagger =====
 builder.Services.AddControllers();
@@ -60,7 +61,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();

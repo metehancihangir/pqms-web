@@ -1,0 +1,62 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #4361ee 0%, #3f37c9 100%);
+  padding: 16px 32px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Outfit', sans-serif;
+}
+
+.navbar__brand {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 24px;
+}
+
+.navbar__link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar__link:hover, .navbar__link.active {
+  color: white;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar__user-name {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.navbar__logout-btn {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navbar__logout-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}

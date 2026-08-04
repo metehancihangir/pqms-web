@@ -1,0 +1,78 @@
+.patient-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+.patient-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.patient-card__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.patient-card__info h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  color: #2d3748;
+}
+
+.patient-card__time {
+  display: block;
+  font-size: 12px;
+  color: #718096;
+  margin-bottom: 4px;
+}
+
+.patient-card__reason {
+  display: block;
+  font-size: 13px;
+  color: #4a5568;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+
+.badge--blue {
+  background-color: #4facfe;
+}
+
+.badge--green {
+  background-color: #48bb78;
+}
+
+.btn-complete {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px;
+  background-color: #48bb78;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-complete:hover {
+  background-color: #38a169;
+}
+
+.btn-complete:disabled {
+  background-color: #9ae6b4;
+  cursor: not-allowed;
+}
