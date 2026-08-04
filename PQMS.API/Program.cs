@@ -18,7 +18,8 @@ if (!string.IsNullOrEmpty(mysqlHost))
     var mysqlDatabase = Environment.GetEnvironmentVariable("MYSQLDATABASE") ?? "railway";
     var mysqlUser = Environment.GetEnvironmentVariable("MYSQLUSER") ?? "root";
     var mysqlPassword = Environment.GetEnvironmentVariable("MYSQLPASSWORD") ?? "";
-    connectionString = $"Server={mysqlHost};Port={mysqlPort};Database={mysqlDatabase};User Id={mysqlUser};Password={mysqlPassword};CharSet=utf8mb4;";
+    connectionString = $"Server={mysqlHost};Port={mysqlPort};Database={mysqlDatabase};User Id={mysqlUser};Password={mysqlPassword};SslMode=None;AllowPublicKeyRetrieval=True;CharSet=utf8mb4;";
+    Console.WriteLine($"[PQMS] Using Railway MySQL: {mysqlHost}:{mysqlPort}/{mysqlDatabase}");
 }
 else
 {
@@ -80,13 +81,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// ===== Apply Migrations & Seed Admin =====
-using (var scope = app.Services.CreateScope())
+// ===== Apply Migrations & Seed Admin (with retry) =====
+for (int attempt = 1; attempt <= 5; attempt++)
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<PqmsDbContext>();
     try
     {
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<PqmsDbContext>();
+
+        Console.WriteLine($"[PQMS] Migration attempt {attempt}/5...");
         dbContext.Database.Migrate();
+        Console.WriteLine("[PQMS] Migration completed successfully.");
 
         if (!dbContext.Users.Any(u => u.Role == "Admin"))
         {
@@ -99,11 +104,22 @@ using (var scope = app.Services.CreateScope())
                 IsActive = true
             });
             dbContext.SaveChanges();
+            Console.WriteLine("[PQMS] Admin user seeded successfully.");
         }
+        else
+        {
+            Console.WriteLine("[PQMS] Admin user already exists.");
+        }
+
+        break; // success, exit retry loop
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Migration error: {ex.Message}");
+        Console.WriteLine($"[PQMS] Migration attempt {attempt} failed: {ex.Message}");
+        if (attempt == 5)
+            Console.WriteLine("[PQMS] All migration attempts failed. App will start without DB setup.");
+        else
+            Thread.Sleep(3000); // wait 3 seconds before retry
     }
 }
 
