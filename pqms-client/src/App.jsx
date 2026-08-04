@@ -5,6 +5,7 @@ import PatientWelcomePage from './pages/PatientWelcomePage';
 import PatientSearchPage from './pages/PatientSearchPage';
 import PatientCheckInPage from './pages/PatientCheckInPage';
 import PatientRegisterPage from './pages/PatientRegisterPage';
+import AdminPage from './pages/AdminPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -23,6 +24,11 @@ function App() {
         <Route path="/patient/search" element={<PatientSearchPage />} />
         <Route path="/patient/checkin/:patientId" element={<PatientCheckInPage />} />
         <Route path="/patient/register" element={<PatientRegisterPage />} />
+
+        {/* Admin Rotaları */}
+        <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
+          <Route path="/admin" element={<AdminPage />} />
+        </Route>
 
         {/* Varsayılan Rota */}
         <Route path="*" element={<Navigate to="/patient/welcome" replace />} />
