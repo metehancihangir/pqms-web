@@ -46,6 +46,7 @@ builder.Services.AddCors(options =>
 // ===== Services =====
 builder.Services.AddScoped<PQMS.API.Services.IAuthService, PQMS.API.Services.AuthService>();
 builder.Services.AddScoped<PQMS.API.Services.IQueueService, PQMS.API.Services.QueueService>();
+builder.Services.AddScoped<PQMS.API.Services.IPatientService, PQMS.API.Services.PatientService>();
 
 // ===== Controllers & Swagger =====
 builder.Services.AddControllers();
