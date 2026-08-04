@@ -8,9 +8,27 @@ using PQMS.API.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== Database =====
+var mysqlHost = Environment.GetEnvironmentVariable("MYSQLHOST");
+string connectionString;
+
+if (!string.IsNullOrEmpty(mysqlHost))
+{
+    // Railway environment: build connection string from individual env vars
+    var mysqlPort = Environment.GetEnvironmentVariable("MYSQLPORT") ?? "3306";
+    var mysqlDatabase = Environment.GetEnvironmentVariable("MYSQLDATABASE") ?? "railway";
+    var mysqlUser = Environment.GetEnvironmentVariable("MYSQLUSER") ?? "root";
+    var mysqlPassword = Environment.GetEnvironmentVariable("MYSQLPASSWORD") ?? "";
+    connectionString = $"Server={mysqlHost};Port={mysqlPort};Database={mysqlDatabase};User Id={mysqlUser};Password={mysqlPassword};CharSet=utf8mb4;";
+}
+else
+{
+    // Local development: use appsettings.json
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+}
+
 builder.Services.AddDbContext<PqmsDbContext>(options =>
     options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+        connectionString,
         new MySqlServerVersion(new Version(8, 0, 36))
     ));
 
