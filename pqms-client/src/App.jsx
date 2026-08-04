@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
+import PatientWelcomePage from './pages/PatientWelcomePage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -14,8 +15,13 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
 
+        {/* Hasta Yönlendirme (Kiosk/Public Rotaları) */}
+        <Route path="/patient/welcome" element={<PatientWelcomePage />} />
+        <Route path="/patient/search" element={<div style={{padding: '50px', textAlign: 'center'}}><h2>Patient Search Page (Faz 4 Placeholder)</h2></div>} />
+        <Route path="/patient/register" element={<div style={{padding: '50px', textAlign: 'center'}}><h2>Patient Register Page (Faz 5 Placeholder)</h2></div>} />
+
         {/* Varsayılan Rota */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/patient/welcome" replace />} />
       </Routes>
     </Router>
   );
