@@ -36,4 +36,25 @@ public class PatientService : IPatientService
             .Take(20)
             .ToListAsync();
     }
+
+    public async Task<PatientSearchResultDto> CreatePatient(PatientCreateDto dto)
+    {
+        var existing = await _context.Patients
+            .AnyAsync(p => p.FullName == dto.FullName && p.DateOfBirth == dto.DateOfBirth);
+
+        if (existing)
+            throw new Exception("A patient with this name and date of birth already exists.");
+
+        var patient = new PQMS.API.Models.Patient
+        {
+            FullName = dto.FullName,
+            PhoneNumber = dto.PhoneNumber,
+            DateOfBirth = dto.DateOfBirth,
+        };
+
+        _context.Patients.Add(patient);
+        await _context.SaveChangesAsync();
+
+        return new PatientSearchResultDto(patient.Id, patient.FullName, patient.PhoneNumber, patient.DateOfBirth);
+    }
 }

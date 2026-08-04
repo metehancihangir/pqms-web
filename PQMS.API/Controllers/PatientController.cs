@@ -28,4 +28,19 @@ public class PatientController : ControllerBase
         var results = await _patientService.SearchPatients(searchTerm, dateOfBirth);
         return Ok(results);
     }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> Create([FromBody] PatientCreateDto request)
+    {
+        try
+        {
+            var result = await _patientService.CreatePatient(request);
+            return StatusCode(201, result); // 201 Created
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }
