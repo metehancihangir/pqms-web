@@ -19,8 +19,8 @@ const Navbar = () => {
       
       <div className="navbar__links">
         <a href="/dashboard" className="navbar__link active">Dashboard</a>
-        <a href="#" className="navbar__link">Queue Display</a>
-        {user?.role === 'Admin' && <a href="#" className="navbar__link">Admin</a>}
+        <a href="/queue-display" className="navbar__link">Queue Display</a>
+        {user?.role === 'Admin' && <a href="/admin" className="navbar__link">Admin</a>}
       </div>
 
       <div className="navbar__user">
