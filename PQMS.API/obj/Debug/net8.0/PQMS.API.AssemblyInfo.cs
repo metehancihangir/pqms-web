@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PQMS.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd11dc21b7aa4bfa37e6c134293e9014dd8f9416")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd8a6e3a0e5f0333cfb2c340d2593f9227fd11aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("PQMS.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PQMS.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
