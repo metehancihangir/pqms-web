@@ -45,6 +45,13 @@ public class PatientService : IPatientService
         if (existing)
             throw new Exception("A patient with this name and date of birth already exists.");
 
+        if (!string.IsNullOrWhiteSpace(dto.PhoneNumber))
+        {
+            var existingPhone = await _context.Patients.AnyAsync(p => p.PhoneNumber == dto.PhoneNumber);
+            if (existingPhone)
+                throw new Exception("This phone number is already registered.");
+        }
+
         var patient = new PQMS.API.Models.Patient
         {
             FullName = dto.FullName,

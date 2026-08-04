@@ -1,0 +1,166 @@
+.queue-display {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #0f172a;
+  color: #f8fafc;
+  overflow: hidden;
+}
+
+.queue-display-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 32px;
+  color: white;
+  background-color: #0f172a;
+}
+
+.queue-display__current {
+  flex: 6;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+}
+
+.queue-display__current h2 {
+  position: absolute;
+  top: 40px;
+  font-size: 48px;
+  font-weight: 800;
+  color: #bfdbfe;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.current-patient-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 80px 120px;
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.queue-display__number {
+  font-size: 160px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  margin-bottom: 24px;
+  text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.queue-display__name {
+  font-size: 64px;
+  font-weight: 600;
+  color: #93c5fd;
+  text-align: center;
+}
+
+.no-patient {
+  font-size: 48px;
+  font-weight: 500;
+  color: #94a3b8;
+  opacity: 0.8;
+}
+
+.queue-display__waiting {
+  flex: 4;
+  background-color: #1e293b;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.queue-display__waiting h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #cbd5e1;
+  margin: 0 0 32px 0;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 16px;
+}
+
+.waiting-list-container {
+  flex: 1;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.queue-display__item {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  background: #334155;
+  border-radius: 16px;
+  font-size: 32px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.queue-display__item:nth-child(1) {
+  background: #2563eb;
+  color: white;
+  transform: scale(1.02);
+}
+
+.item-index {
+  color: #94a3b8;
+  width: 60px;
+}
+
+.queue-display__item:nth-child(1) .item-index {
+  color: #bfdbfe;
+}
+
+.item-number {
+  width: 200px;
+  font-weight: 800;
+}
+
+.item-name {
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-waiting {
+  font-size: 24px;
+  color: #64748b;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Subtle Pulse Animation for current patient */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 40px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.pulse {
+  animation: pulse 3s infinite;
+}

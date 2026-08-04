@@ -9,4 +9,5 @@ public interface IQueueService
     Task<QueueEntry> CallNextPatient();
     Task<PQMS.API.DTOs.Queue.CheckInResponseDto> CheckIn(PQMS.API.DTOs.Queue.CheckInRequestDto request);
     Task<QueueEntry> CompletePatient(int queueId);
+    Task<PQMS.API.DTOs.Queue.QueueDisplayDto> GetQueueDisplay();
 }

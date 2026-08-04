@@ -76,4 +76,12 @@ public class QueueController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpGet("display")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetQueueDisplay()
+    {
+        var displayData = await _queueService.GetQueueDisplay();
+        return Ok(displayData);
+    }
 }

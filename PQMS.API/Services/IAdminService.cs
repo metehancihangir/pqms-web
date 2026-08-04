@@ -10,6 +10,7 @@ public interface IAdminService
     Task<List<UserListDto>> GetAllUsers();
     Task UpdateUserRole(int id, UpdateUserRoleDto dto);
     Task ToggleUserStatus(int id);
+    Task DeleteUser(int id);
 
     // Visit Reasons Management
     Task<List<VisitReason>> GetVisitReasons();

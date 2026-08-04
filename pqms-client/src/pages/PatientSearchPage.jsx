@@ -39,6 +39,7 @@ const PatientSearchPage = () => {
     navigate(`/patient/appointment/${patientId}`);
   };
 
+
   const handleCheckIn = (patientId) => {
     navigate(`/patient/checkin/${patientId}`);
   };
@@ -99,8 +100,8 @@ const PatientSearchPage = () => {
                     <PatientResultCard
                       key={patient.id}
                       patient={patient}
-                      onBookAppointment={() => handleBookAppointment(patient.id)}
                       onCheckIn={() => handleCheckIn(patient.id)}
+                      onBookAppointment={() => handleBookAppointment(patient.id)}
                     />
                   ))}
                 </div>
