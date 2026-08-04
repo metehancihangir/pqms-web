@@ -58,6 +58,33 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// ===== Apply Migrations & Seed Admin =====
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PqmsDbContext>();
+    try
+    {
+        dbContext.Database.Migrate();
+
+        if (!dbContext.Users.Any(u => u.Role == "Admin"))
+        {
+            dbContext.Users.Add(new PQMS.API.Models.User
+            {
+                FullName = "System Administrator",
+                Email = "admin@hospital.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                Role = "Admin",
+                IsActive = true
+            });
+            dbContext.SaveChanges();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Migration error: {ex.Message}");
+    }
+}
+
 // ===== Middleware Pipeline =====
 if (app.Environment.IsDevelopment())
 {
