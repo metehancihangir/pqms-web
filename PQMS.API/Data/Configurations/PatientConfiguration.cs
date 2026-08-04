@@ -23,5 +23,17 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
 
         builder.Property(p => p.CreatedAt)
                .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+        // Seed data for testing purposes
+        builder.HasData(
+            new Patient 
+            { 
+                Id = 1, 
+                FullName = "James Kamanga", 
+                PhoneNumber = "0888876600", 
+                DateOfBirth = new DateTime(2000, 6, 14), 
+                CreatedAt = DateTime.UtcNow 
+            }
+        );
     }
 }

@@ -1,0 +1,264 @@
+.checkin-container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.checkin-card {
+  background: white;
+  max-width: 600px;
+  width: 100%;
+  padding: 48px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.checkin-card h1 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.checkin-card .subtitle {
+  color: #64748b;
+  margin: 0 0 32px 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Tab Bar */
+.checkin-tab-bar {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 32px;
+}
+
+.checkin-tab {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  background: transparent;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.checkin-tab--active {
+  background: white;
+  color: #4facfe;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.checkin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.checkin-select, .checkin-textarea {
+  padding: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  color: #1e293b;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.checkin-select:focus, .checkin-textarea:focus {
+  border-color: #4facfe;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+}
+
+/* Checkbox container */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 32px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #475569;
+  user-select: none;
+  margin-top: 8px;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #cbd5e1;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #4facfe;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-container a {
+  color: #4facfe;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-checkin-submit {
+  margin-top: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+  font-family: 'Outfit', sans-serif;
+}
+
+.btn-checkin-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4);
+}
+
+.btn-checkin-submit:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Success Card */
+.checkin-success-card {
+  background: white;
+  max-width: 500px;
+  width: 100%;
+  padding: 48px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.checkin-success-card h2 {
+  font-size: 32px;
+  color: #10b981;
+  margin: 0 0 16px 0;
+}
+
+.queue-display {
+  margin: 40px 0;
+  padding: 32px;
+  background: #f8fafc;
+  border-radius: 20px;
+  border: 2px dashed #cbd5e1;
+}
+
+.queue-label {
+  display: block;
+  font-size: 16px;
+  color: #64748b;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.queue-number {
+  display: block;
+  font-size: 56px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.patient-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 32px;
+}
+
+.btn-checkin-home {
+  padding: 16px 32px;
+  background: white;
+  color: #4facfe;
+  border: 2px solid #4facfe;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-checkin-home:hover {
+  background: #f0f9ff;
+}
+
+@media (max-width: 600px) {
+  .checkin-card, .checkin-success-card {
+    padding: 32px 20px;
+  }
+}

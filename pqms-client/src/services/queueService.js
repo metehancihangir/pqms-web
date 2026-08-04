@@ -11,8 +11,18 @@ export const queueService = {
     return response.data;
   },
 
-  completePatient: async (queueId) => {
-    const response = await api.put(`/queue/${queueId}/complete`);
+  completePatient: async (id) => {
+    const response = await api.put(`/queue/${id}/complete`);
+    return response.data;
+  },
+
+  getVisitReasons: async () => {
+    const response = await api.get('/visit-reasons');
+    return response.data;
+  },
+
+  checkIn: async (data) => {
+    const response = await api.post('/queue/checkin', data);
     return response.data;
   }
 };
