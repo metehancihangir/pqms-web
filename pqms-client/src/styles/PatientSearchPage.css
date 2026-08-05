@@ -240,41 +240,23 @@
 }
 
 @media (max-width: 768px) {
-  .search-form__row {
-    flex-direction: column;
-  }
-  
-  .patient-result-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  
-  .patient-result-card__dob {
-    align-self: flex-start;
-  }
-  
-  .patient-result-card__actions {
-    width: 100%;
-    flex-direction: column;
-  }
-  
-  .btn-search {
-    width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
   .search-container {
     padding: 20px 16px;
   }
   
+  .search-navbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+  
   .search-card {
-    padding: 24px;
+    padding: 24px 16px;
+    border-radius: 16px;
   }
   
   .search-header h1 {
-    font-size: 26px;
+    font-size: 24px;
   }
   
   .search-form__row {
@@ -300,5 +282,11 @@
   
   .btn-search {
     width: 100%;
+    text-align: center;
+  }
+  
+  .btn-search-submit {
+    font-size: 16px;
+    padding: 16px;
   }
 }
