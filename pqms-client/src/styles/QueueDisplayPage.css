@@ -164,3 +164,76 @@
 .pulse {
   animation: pulse 3s infinite;
 }
+
+@media (max-width: 1024px) {
+  .queue-display {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .queue-display__current {
+    flex: none;
+    padding: 60px 20px;
+  }
+  
+  .queue-display__current h2 {
+    top: 20px;
+    font-size: 32px;
+  }
+  
+  .current-patient-card {
+    padding: 40px 60px;
+  }
+  
+  .queue-display__number {
+    font-size: 100px;
+  }
+  
+  .queue-display__name {
+    font-size: 40px;
+  }
+  
+  .queue-display__waiting {
+    flex: none;
+    padding: 20px;
+  }
+  
+  .queue-display__waiting h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .queue-display__item {
+    font-size: 20px;
+    padding: 16px;
+  }
+  
+  .item-number {
+    width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-patient-card {
+    padding: 24px 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .queue-display__number {
+    font-size: 72px;
+  }
+  
+  .queue-display__name {
+    font-size: 28px;
+  }
+  
+  .item-number {
+    width: 80px;
+  }
+  
+  .queue-display__item {
+    font-size: 16px;
+  }
+}

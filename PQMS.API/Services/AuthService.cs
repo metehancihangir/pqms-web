@@ -50,7 +50,7 @@ public class AuthService : IAuthService
             FullName = request.FullName,
             Email = request.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            Role = string.IsNullOrWhiteSpace(request.Role) ? "Patient" : request.Role,
+            Role = "Patient", // Fixed: Prevent privilege escalation by ignoring request.Role
             IsActive = true
         };
 

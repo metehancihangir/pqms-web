@@ -163,3 +163,45 @@
     font-size: 24px;
   }
 }
+
+@media (max-width: 768px) {
+  .welcome-navbar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+  
+  .welcome-container {
+    padding: 16px;
+  }
+  
+  .welcome-card {
+    padding: 32px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-card__icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 16px;
+  }
+  
+  .welcome-card__icon span {
+    font-size: 28px;
+  }
+  
+  .welcome-card__title {
+    font-size: 22px;
+  }
+  
+  .welcome-card__subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  
+  .btn-welcome {
+    font-size: 16px;
+    padding: 16px;
+  }
+}
