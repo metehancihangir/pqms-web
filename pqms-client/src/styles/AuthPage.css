@@ -8,7 +8,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f4f7fb;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
   font-family: 'Outfit', sans-serif;
 }
 
@@ -244,21 +244,37 @@
 }
 
 @media (max-width: 768px) {
+  .auth-container {
+    padding: 20px;
+  }
+  
   .auth-card {
-    max-width: 100%;
-    margin: 0 16px;
-    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   }
 }
 
 @media (max-width: 480px) {
+  .auth-container {
+    padding: 16px;
+    justify-content: flex-start;
+    padding-top: 40px;
+  }
+  
+  .auth-header-logo {
+    margin-bottom: 20px;
+  }
+  
   .auth-form {
     padding: 24px 20px;
     gap: 16px;
   }
   
   .auth-header-logo .auth-title {
-    font-size: 32px;
+    font-size: 28px;
   }
   
   .auth-tab {

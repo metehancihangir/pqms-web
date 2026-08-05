@@ -64,9 +64,10 @@ builder.Services.AddDbContext<PqmsDbContext>(options =>
 
 // ===== JWT Authentication =====
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? builder.Configuration["Jwt:Secret"]!;
-if (jwtSecret == "YOUR_JWT_SECRET_MUST_BE_PROVIDED_IN_ENV_VARS")
+if (jwtSecret == "YOUR_JWT_SECRET_MUST_BE_PROVIDED_IN_ENV_VARS" || string.IsNullOrEmpty(jwtSecret))
 {
-    throw new InvalidOperationException("JWT Secret is missing. Please set JWT_SECRET in environment variables.");
+    // Provide a fallback secret for homework purposes so it doesn't crash on Railway
+    jwtSecret = "PqmsSecretKey2026SuperSecure32CharsLongFallback!";
 }
 
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
