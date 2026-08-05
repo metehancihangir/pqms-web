@@ -102,7 +102,10 @@ builder.Services.AddCors(options =>
         }
         else
         {
-            policy.WithOrigins("https://pqms-web-production.up.railway.app")
+            policy.WithOrigins(
+                    "https://pqms-web.web.app",
+                    "https://pqms-web.firebaseapp.com",
+                    "https://pqms-web-production.up.railway.app")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         }

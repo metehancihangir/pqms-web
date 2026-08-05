@@ -161,22 +161,37 @@
   border: 1px solid #fecaca;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .register-navbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+  
+  .register-container {
+    padding: 20px 16px;
+  }
+  
   .register-card {
     padding: 32px 20px;
+    border-radius: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .register-card {
     padding: 24px 16px;
-    margin: 16px;
+    margin: 0;
     max-width: 100%;
     box-sizing: border-box;
   }
   
   .register-card h1 {
-    font-size: 26px;
+    font-size: 24px;
+  }
+  
+  .register-subtitle {
+    font-size: 14px;
   }
   
   .register-input {
