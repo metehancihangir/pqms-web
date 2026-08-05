@@ -8,23 +8,46 @@ using PQMS.API.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== Database =====
-var mysqlHost = Environment.GetEnvironmentVariable("MYSQLHOST");
 string connectionString;
+var mysqlUrl = Environment.GetEnvironmentVariable("MYSQL_URL");
+var mysqlHost = Environment.GetEnvironmentVariable("MYSQLHOST") ?? Environment.GetEnvironmentVariable("MYSQL_HOST");
 
-if (!string.IsNullOrEmpty(mysqlHost))
+if (!string.IsNullOrEmpty(mysqlUrl))
+{
+    // Railway MYSQL_URL format: mysql://user:password@host:port/database
+    bool isMySqlUri = Uri.TryCreate(mysqlUrl, UriKind.Absolute, out Uri uri);
+    if (isMySqlUri)
+    {
+        var userInfo = uri.UserInfo.Split(':');
+        var user = userInfo.Length > 0 ? userInfo[0] : "root";
+        var pass = userInfo.Length > 1 ? userInfo[1] : "";
+        var host = uri.Host;
+        var port = uri.Port > 0 ? uri.Port : 3306;
+        var db = uri.LocalPath.TrimStart('/');
+        connectionString = $"Server={host};Port={port};Database={db};User Id={user};Password={pass};SslMode=None;AllowPublicKeyRetrieval=True;CharSet=utf8mb4;";
+        Console.WriteLine($"[PQMS] Using Railway MYSQL_URL: {host}:{port}/{db}");
+    }
+    else
+    {
+        connectionString = mysqlUrl;
+        Console.WriteLine($"[PQMS] Using Railway MYSQL_URL directly (unparsed)");
+    }
+}
+else if (!string.IsNullOrEmpty(mysqlHost))
 {
     // Railway environment: build connection string from individual env vars
-    var mysqlPort = Environment.GetEnvironmentVariable("MYSQLPORT") ?? "3306";
-    var mysqlDatabase = Environment.GetEnvironmentVariable("MYSQLDATABASE") ?? "railway";
-    var mysqlUser = Environment.GetEnvironmentVariable("MYSQLUSER") ?? "root";
-    var mysqlPassword = Environment.GetEnvironmentVariable("MYSQLPASSWORD") ?? "";
+    var mysqlPort = Environment.GetEnvironmentVariable("MYSQLPORT") ?? Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306";
+    var mysqlDatabase = Environment.GetEnvironmentVariable("MYSQLDATABASE") ?? Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "railway";
+    var mysqlUser = Environment.GetEnvironmentVariable("MYSQLUSER") ?? Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root";
+    var mysqlPassword = Environment.GetEnvironmentVariable("MYSQLPASSWORD") ?? Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "";
     connectionString = $"Server={mysqlHost};Port={mysqlPort};Database={mysqlDatabase};User Id={mysqlUser};Password={mysqlPassword};SslMode=None;AllowPublicKeyRetrieval=True;CharSet=utf8mb4;";
-    Console.WriteLine($"[PQMS] Using Railway MySQL: {mysqlHost}:{mysqlPort}/{mysqlDatabase}");
+    Console.WriteLine($"[PQMS] Using Railway MySQL individual vars: {mysqlHost}:{mysqlPort}/{mysqlDatabase}");
 }
 else
 {
     // Local development: use appsettings.json
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+    Console.WriteLine("[PQMS] Using local DefaultConnection from appsettings.json");
 }
 
 builder.Services.AddDbContext<PqmsDbContext>(options =>
