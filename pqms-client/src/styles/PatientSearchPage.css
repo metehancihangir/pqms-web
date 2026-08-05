@@ -263,3 +263,42 @@
     width: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  .search-container {
+    padding: 20px 16px;
+  }
+  
+  .search-card {
+    padding: 24px;
+  }
+  
+  .search-header h1 {
+    font-size: 26px;
+  }
+  
+  .search-form__row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .patient-result-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .patient-result-card__dob {
+    align-self: flex-start;
+  }
+  
+  .patient-result-card__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .btn-search {
+    width: 100%;
+  }
+}

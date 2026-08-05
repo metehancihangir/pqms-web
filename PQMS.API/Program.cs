@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 using PQMS.API.Data;
 using PQMS.API.Services;
 
@@ -61,7 +63,12 @@ builder.Services.AddDbContext<PqmsDbContext>(options =>
     ));
 
 // ===== JWT Authentication =====
-var jwtSecret = builder.Configuration["Jwt:Secret"]!;
+var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? builder.Configuration["Jwt:Secret"]!;
+if (jwtSecret == "YOUR_JWT_SECRET_MUST_BE_PROVIDED_IN_ENV_VARS")
+{
+    throw new InvalidOperationException("JWT Secret is missing. Please set JWT_SECRET in environment variables.");
+}
+
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
 var jwtAudience = builder.Configuration["Jwt:Audience"]!;
 
@@ -85,10 +92,36 @@ builder.Services.AddAuthorization();
 
 // ===== CORS =====
 builder.Services.AddCors(options =>
+{
     options.AddPolicy("AllowReactApp", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod()));
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        }
+        else
+        {
+            policy.WithOrigins("https://pqms-web-production.up.railway.app")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+    });
+});
+
+// ===== Rate Limiting =====
+builder.Services.AddRateLimiter(options =>
+{
+    options.GlobalLimiter = PartitionedRateLimit.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                AutoReplenishment = true,
+                PermitLimit = 100,
+                QueueLimit = 0,
+                Window = TimeSpan.FromMinutes(1)
+            }));
+});
 
 // ===== Services =====
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -122,7 +155,7 @@ for (int attempt = 1; attempt <= 5; attempt++)
             {
                 FullName = "System Administrator",
                 Email = "admin@hospital.com",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(Environment.GetEnvironmentVariable("ADMIN_PASSWORD") ?? "admin123"),
                 Role = "Admin",
                 IsActive = true
             });
@@ -154,6 +187,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+app.UseRateLimiter();
 app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
