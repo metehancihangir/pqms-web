@@ -45,10 +45,10 @@ const AuthPage = () => {
         navigate('/dashboard'); 
       }
     } catch (err) {
-      if (isLogin) {
+      if (err.response?.status === 401) {
         setError('Invalid email or password.');
       } else {
-        setError(err.response?.data?.message || 'An error occurred. Please try again.');
+        setError(err.response?.data?.message || err.response?.data || 'An error occurred. Please try again.');
       }
     } finally {
       setLoading(false);
